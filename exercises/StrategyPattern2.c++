@@ -1,6 +1,6 @@
-// -------------------
-// StrategyPattern.c++
-// -------------------
+// --------------------
+// StrategyPattern2.c++
+// --------------------
 
 // http://en.wikipedia.org/wiki/Strategy_pattern
 // http://en.cppreference.com/w/cpp/memory/shared_ptr
@@ -19,40 +19,40 @@ struct DuckInterface {
     virtual string fly   () = 0;
     virtual string quack () = 0;};
 
-struct AbstractDuck : DuckInterface {
-    string swim () final {
+struct AbstractDuck : virtual DuckInterface {
+    virtual string swim () final {
         return "can swim";}};
 
-struct DecoyDuck : AbstractDuck {
+struct FlyingDuck : virtual AbstractDuck {
     string fly () {
-        return "can not fly";}
+        return "can fly";}};
 
+struct NonFlyingDuck : virtual AbstractDuck {
+    string fly () {
+        return "can not fly";}};
+
+struct QuackingDuck : virtual AbstractDuck {
     string quack () {
         return "can quack";}};
 
-struct MallardDuck : AbstractDuck {
-    string fly () {
-        return "can fly";}
-
-    string quack () {
-        return "can quack";}};
-
-struct ModelDuck : AbstractDuck {
-    string fly () {
-        return "can not fly";}
-
+struct NonQuackingDuck : virtual AbstractDuck {
     string quack () {
         return "can not quack";}};
 
-struct RubberDuck : AbstractDuck {
-    string fly () {
-        return "can not fly";}
+struct DecoyDuck : NonFlyingDuck, QuackingDuck
+    {};
 
-    string quack () {
-        return "can quack";}};
+struct MallardDuck : FlyingDuck, QuackingDuck
+    {};
+
+struct ModelDuck : NonFlyingDuck, NonQuackingDuck
+    {};
+
+struct RubberDuck : NonFlyingDuck, NonQuackingDuck
+    {};
 
 int main () {
-    cout << "StrategyPattern.c++" << endl;
+    cout << "StrategyPattern2.c++" << endl;
 
     {
     DuckInterface* p = new DecoyDuck;
@@ -70,7 +70,7 @@ int main () {
     }
 
     {
-    shared_ptr<ModelDuck> p = make_shared<ModelDuck>();
+    shared_ptr<DuckInterface> p = make_shared<ModelDuck>();
     assert(p->fly()   == "can not fly");
     assert(p->quack() == "can not quack");
     assert(p->swim()  == "can swim");
@@ -79,7 +79,7 @@ int main () {
     {
     auto p = make_shared<RubberDuck>();
     assert(p->fly()   == "can not fly");
-    assert(p->quack() == "can quack");
+    assert(p->quack() == "can not quack");
     assert(p->swim()  == "can swim");
     }
 
