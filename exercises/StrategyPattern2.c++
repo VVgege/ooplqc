@@ -48,7 +48,7 @@ struct MallardDuck : FlyingDuck, QuackingDuck
 struct ModelDuck : NonFlyingDuck, NonQuackingDuck
     {};
 
-struct RubberDuck : NonFlyingDuck, NonQuackingDuck
+struct RubberDuck : NonFlyingDuck, QuackingDuck
     {};
 
 int main () {
@@ -70,7 +70,7 @@ int main () {
     }
 
     {
-    shared_ptr<DuckInterface> p = make_shared<ModelDuck>();
+    shared_ptr<ModelDuck> p = make_shared<ModelDuck>();
     assert(p->fly()   == "can not fly");
     assert(p->quack() == "can not quack");
     assert(p->swim()  == "can swim");
@@ -79,7 +79,7 @@ int main () {
     {
     auto p = make_shared<RubberDuck>();
     assert(p->fly()   == "can not fly");
-    assert(p->quack() == "can not quack");
+    assert(p->quack() == "can quack");
     assert(p->swim()  == "can swim");
     }
 
