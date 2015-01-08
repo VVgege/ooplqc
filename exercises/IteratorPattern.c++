@@ -10,7 +10,14 @@
 
 template <typename T>
 class Range {
-    ...};
+    public:
+        class iterator {
+            ...};
+
+        ...
+
+    private:
+        ...};
 
 int main () {
     using namespace std;
