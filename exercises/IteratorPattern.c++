@@ -8,6 +8,14 @@
 #include <iterator>  // ostream_iterator
 #include <sstream>   // ostringstream
 
+template <typename II, typename OI>
+OI my_copy (II b, II e, OI x) {
+    while (b != e) {
+        *x = *b;
+        ++b;
+        ++x;}
+    return x;}
+
 template <typename T>
 class Range {
     public:
@@ -28,7 +36,7 @@ int main () {
     Range<int>::iterator b = x.begin();
     Range<int>::iterator e = x.end();
     ostringstream out;
-    copy(b, e, ostream_iterator<int>(out));
+    my_copy(b, e, ostream_iterator<int>(out));
     assert(out.str() == "");
     }
 
@@ -37,7 +45,7 @@ int main () {
     Range<int>::iterator b = x.begin();
     Range<int>::iterator e = x.end();
     ostringstream out;
-    copy(b, e, ostream_iterator<int>(out));
+    my_copy(b, e, ostream_iterator<int>(out));
     assert(out.str() == "2");
     }
 
@@ -46,7 +54,7 @@ int main () {
     Range<int>::iterator b = x.begin();
     Range<int>::iterator e = x.end();
     ostringstream out;
-    copy(b, e, ostream_iterator<int>(out));
+    my_copy(b, e, ostream_iterator<int>(out));
     assert(out.str() == "23");
     }
 
@@ -55,7 +63,7 @@ int main () {
     Range<int>::iterator b = x.begin();
     Range<int>::iterator e = x.end();
     ostringstream out;
-    copy(b, e, ostream_iterator<int>(out));
+    my_copy(b, e, ostream_iterator<int>(out));
     assert(out.str() == "234");
     }
 
