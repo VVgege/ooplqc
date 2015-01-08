@@ -19,6 +19,10 @@ struct A {
         return "A::f";}};
 
 template <typename T>
+class my_shared_ptr {
+    ...};
+
+template <typename T>
 void test () {
     {
 //  T x = new A; // error: no viable conversion from 'A *'
