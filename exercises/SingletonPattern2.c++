@@ -40,7 +40,7 @@ class LazyClass {
 
     public:
         static LazyClass& only () {
-            if (_only.get() == 0)
+            if (!_only)
                 _only = shared_ptr<LazyClass>(new LazyClass());
             return *_only;}
 
