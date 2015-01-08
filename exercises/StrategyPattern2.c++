@@ -15,9 +15,9 @@ using namespace std;
 struct DuckInterface {
     virtual ~DuckInterface () {}
 
-    virtual string swim  () = 0;
     virtual string fly   () = 0;
-    virtual string quack () = 0;};
+    virtual string quack () = 0;
+    virtual string swim  () = 0;};
 
 struct AbstractDuck : virtual DuckInterface {
     virtual string swim () final {

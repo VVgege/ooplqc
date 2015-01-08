@@ -24,10 +24,6 @@ struct NonFlying : FlyingInterface {
     string fly () {
         return "can not fly";}};
 
-struct RocketFlying : FlyingInterface {
-    string fly () {
-        return "can rocket fly";}};
-
 struct QuackingInterface {
     virtual ~QuackingInterface () {}
     virtual string quack () = 0;};
@@ -40,54 +36,89 @@ struct NonQuacking : QuackingInterface {
     string quack () {
         return "can not quack";}};
 
-class Duck {
-    private:
-        shared_ptr<FlyingInterface>   _f;
-        shared_ptr<QuackingInterface> _q;
+struct DuckInterface {
+    virtual ~DuckInterface () {}
 
-    public:
-        Duck (shared_ptr<FlyingInterface> f, shared_ptr<QuackingInterface> q) {
-            _f = f;
-            _q = q;}
+    virtual string fly   () = 0;
+    virtual string quack () = 0;
+    virtual string swim  () = 0;};
 
-        string fly () {
-            return _f->fly();}
+struct Duck : DuckInterface {
+    shared_ptr<FlyingInterface>   _f;
+    shared_ptr<QuackingInterface> _q;
 
-        string quack () {
-            return _q->quack();}
+    Duck (shared_ptr<FlyingInterface> f, shared_ptr<QuackingInterface> q) :
+            _f (f),
+            _q (q)
+        {}
 
-        string swim () {
-            return "can swim";}};
+    string fly () final {
+        return _f->fly();}
+
+    string quack () final {
+        return _q->quack();}
+
+    string swim () final {
+        return "can swim";}};
+
+struct DecoyDuck : Duck {
+    DecoyDuck () :
+            Duck (
+                make_shared<NonFlying>(),
+                make_shared<Quacking>())
+        {}};
+
+struct MallardDuck : Duck {
+    MallardDuck () :
+            Duck (
+                make_shared<Flying>(),
+                make_shared<Quacking>())
+        {}};
+
+struct ModelDuck : Duck {
+    ModelDuck () :
+        Duck (
+            make_shared<NonFlying>(),
+            make_shared<NonQuacking>())
+        {}};
+
+struct RubberDuck : Duck {
+    RubberDuck () :
+        Duck (
+            make_shared<NonFlying>(),
+            make_shared<Quacking>())
+        {}};
 
 int main () {
     cout << "StrategyPattern4.c++" << endl;
 
     {
-    Duck decoy_duck(make_shared<NonFlying>(), make_shared<Quacking>());
-    assert(decoy_duck.fly()   == "can not fly");
-    assert(decoy_duck.quack() == "can quack");
-    assert(decoy_duck.swim()  == "can swim");
+    DuckInterface* p = new DecoyDuck;
+    assert(p->fly()   == "can not fly");
+    assert(p->quack() == "can quack");
+    assert(p->swim()  == "can swim");
+    delete p;
     }
 
     {
-    Duck mallard_duck(make_shared<Flying>(), make_shared<Quacking>());
-    assert(mallard_duck.fly()   == "can fly");
-    assert(mallard_duck.quack() == "can quack");
-    assert(mallard_duck.swim()  == "can swim");
+    shared_ptr<DuckInterface> p = shared_ptr<DuckInterface>(new MallardDuck);
+    assert(p->fly()   == "can fly");
+    assert(p->quack() == "can quack");
+    assert(p->swim()  == "can swim");
     }
 
     {
-    Duck model_duck(make_shared<NonFlying>(), make_shared<NonQuacking>());
-    assert(model_duck.fly()   == "can not fly");
-    assert(model_duck.quack() == "can not quack");
-    assert(model_duck.swim()  == "can swim");
+    shared_ptr<ModelDuck> p = make_shared<ModelDuck>();
+    assert(p->fly()   == "can not fly");
+    assert(p->quack() == "can not quack");
+    assert(p->swim()  == "can swim");
     }
 
     {
-    Duck rubber_duck(make_shared<NonFlying>(), make_shared<NonQuacking>());
-    assert(rubber_duck.fly()   == "can not fly");
-    assert(rubber_duck.quack() == "can not quack");
-    assert(rubber_duck.swim()  == "can swim");
+    auto p = make_shared<RubberDuck>();
+    assert(p->fly()   == "can not fly");
+    assert(p->quack() == "can quack");
+    assert(p->swim()  == "can swim");
     }
 
     cout << "Done." << endl;

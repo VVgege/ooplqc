@@ -19,13 +19,13 @@ struct A {
         return "A::h";}};
 
 struct B : A {
-    virtual std::string f (int) {
+    std::string f (int) {
         return "B::f";}
 
-    virtual std::string g (double) {
+    std::string g (double) {
         return "B::g";}
 
-    virtual std::string h (int) const {
+    std::string h (int) const {
         return "B::h";}};
 
 int main () {
