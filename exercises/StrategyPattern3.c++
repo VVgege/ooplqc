@@ -34,18 +34,20 @@ struct DuckInterface {
     virtual string swim  () = 0;};
 
 template <typename F, typename Q>
-struct Duck : DuckInterface {
-    F f;
-    Q q;
+class Duck : public DuckInterface {
+    private:
+        F f;
+        Q q;
 
-    string fly () {
-        return f.fly();}
+    public:
+        string fly () {
+            return f.fly();}
 
-    string quack () {
-        return q.quack();}
+        string quack () {
+            return q.quack();}
 
-    string swim () {
-        return "can swim";}};
+        string swim () {
+            return "can swim";}};
 
 typedef Duck<NonFlying, Quacking>    DecoyDuck;
 typedef Duck<Flying,    Quacking>    MallardDuck;

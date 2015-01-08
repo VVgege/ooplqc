@@ -43,23 +43,25 @@ struct DuckInterface {
     virtual string quack () = 0;
     virtual string swim  () = 0;};
 
-struct Duck : DuckInterface {
-    shared_ptr<FlyingInterface>   _f;
-    shared_ptr<QuackingInterface> _q;
+class Duck : public DuckInterface {
+    private:
+        shared_ptr<FlyingInterface>   _f;
+        shared_ptr<QuackingInterface> _q;
 
-    Duck (shared_ptr<FlyingInterface> f, shared_ptr<QuackingInterface> q) :
-            _f (f),
-            _q (q)
-        {}
+    public:
+        Duck (shared_ptr<FlyingInterface> f, shared_ptr<QuackingInterface> q) :
+                _f (f),
+                _q (q)
+            {}
 
-    string fly () final {
-        return _f->fly();}
+        string fly () final {
+            return _f->fly();}
 
-    string quack () final {
-        return _q->quack();}
+        string quack () final {
+            return _q->quack();}
 
-    string swim () final {
-        return "can swim";}};
+        string swim () final {
+            return "can swim";}};
 
 struct DecoyDuck : Duck {
     DecoyDuck () :
