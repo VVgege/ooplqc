@@ -22,8 +22,8 @@ int main () {
 
     {
     A<int> x;
-    assert(x.v == 0);
-    assert(x.w == 0);
+//  assert(x.v == 0); // undefined
+//  assert(x.w == 0); // undefined
 
     A<int> y = {};
     assert(y.v == 0);

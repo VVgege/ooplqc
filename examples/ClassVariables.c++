@@ -41,11 +41,9 @@ int main () {
 
     assert(A<int>::cv1    == 1);
     assert(A<double>::cv1 == 1);
-    assert(&A<int>::cv1   != &A<double>::cv1);
 
-    assert(A<int>::cv1  == 1);
-    assert(A<int>::cv1  == 1);
-    assert(&A<int>::cv1 == &A<double>::cv1);
+    assert(&A<int>::cv1 == &A<int>::cv1);
+    assert(&A<int>::cv1 != &A<double>::cv1);
 
     A<int> x;
     A<int> y;
