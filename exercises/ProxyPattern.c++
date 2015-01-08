@@ -26,7 +26,7 @@ void test () {
     T x(new typename T::element_type);
     assert(x.unique());
     assert(x.use_count() == 1);
-    assert(x->f() == "A::f");
+    assert(x->f()        == "A::f");
     }
 
     {
