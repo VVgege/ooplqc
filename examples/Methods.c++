@@ -12,9 +12,9 @@ class A {
         mutable int _iw;
 
     public:
-        A () :
-                _iv (0),
-                _iw (1) {
+        A () {
+            _iv = 0;
+            _iw = 1;
             cm();
             im();
             cim();
