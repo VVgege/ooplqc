@@ -24,7 +24,7 @@ class A {
                 void g () {
                     assert(ev == 2);    // A::ev
                     assert(cv == 3);    // A::cv
-//                  assert(iv == 4);    // doesn't compile
+//                  assert(iv == 4);    // error: use of non-static data member 'iv' of 'A' from nested type 'B'
                     assert(ew == 5);    // B::ew
                     assert(cw == 6);    // B::cw
                     assert(iw == 7);}}; // this->iw
