@@ -26,7 +26,7 @@ template <typename T>
 void test () {
     {
 //  T x = new A; // error: no viable conversion from 'A *'
-//  T x(A);
+//  T x(new A);
     T x(new typename T::element_type);
     assert(x.unique());
     assert(x.use_count() == 1);
