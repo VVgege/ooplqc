@@ -53,6 +53,9 @@ void test () {
     assert(z->f() == "A::f");
     z = x;
     assert(z == x);
+    assert(!x.unique());
+    assert(x.use_count() == 2);
+    assert(x->f() == "A::f");
     assert(y.unique());
     assert(y.use_count() == 1);
     assert(y->f() == "A::f");
