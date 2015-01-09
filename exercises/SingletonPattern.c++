@@ -16,7 +16,9 @@ class Singleton {
 
     public:
         string f () const {
-            return "Singleton::f()";}};
+            return "Singleton::f()";}
+
+        ...};
 
 int main () {
     cout << "SingletonPattern.c++" << endl;

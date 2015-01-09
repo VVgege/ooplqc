@@ -43,16 +43,18 @@ struct DuckInterface {
     virtual string quack () = 0;
     virtual string swim  () = 0;};
 
-class Duck : public DuckInterface {
+class AbstractDuck : public DuckInterface {
     private:
         shared_ptr<FlyingInterface>   _f;
         shared_ptr<QuackingInterface> _q;
 
     public:
-        Duck (shared_ptr<FlyingInterface> f, shared_ptr<QuackingInterface> q) :
+        AbstractDuck (shared_ptr<FlyingInterface> f, shared_ptr<QuackingInterface> q) :
                 _f (f),
                 _q (q)
             {}
+
+        ~AbstractDuck () = 0;
 
         string fly () final {
             return _f->fly();}
@@ -63,30 +65,32 @@ class Duck : public DuckInterface {
         string swim () final {
             return "can swim";}};
 
-struct DecoyDuck : Duck {
+AbstractDuck::~AbstractDuck () {}
+
+struct DecoyDuck : AbstractDuck {
     DecoyDuck () :
-            Duck (
+            AbstractDuck (
                 make_shared<NonFlying>(),
                 make_shared<Quacking>())
         {}};
 
-struct MallardDuck : Duck {
+struct MallardDuck : AbstractDuck {
     MallardDuck () :
-            Duck (
+            AbstractDuck (
                 make_shared<Flying>(),
                 make_shared<Quacking>())
         {}};
 
-struct ModelDuck : Duck {
+struct ModelDuck : AbstractDuck {
     ModelDuck () :
-        Duck (
+        AbstractDuck (
             make_shared<NonFlying>(),
             make_shared<NonQuacking>())
         {}};
 
-struct RubberDuck : Duck {
+struct RubberDuck : AbstractDuck {
     RubberDuck () :
-        Duck (
+        AbstractDuck (
             make_shared<NonFlying>(),
             make_shared<Quacking>())
         {}};

@@ -1,38 +1,28 @@
 // --------------------
-// StrategyPattern3.c++
+// StrategyPattern5.c++
 // --------------------
 
 // http://en.wikipedia.org/wiki/Strategy_pattern
-// http://en.cppreference.com/w/cpp/memory/shared_ptr
 
 #include <cassert>  // assert
 #include <iostream> // cout, endl
-#include <memory>   // make_shared, shared_ptr
 #include <string>   // string, ==
 
 using namespace std;
 
-struct FlyingInterface {
-    virtual ~FlyingInterface () {}
-    virtual string fly () = 0;};
-
-struct Flying : FlyingInterface {
+struct Flying {
     string fly () {
         return "can fly";}};
 
-struct NonFlying : FlyingInterface {
+struct NonFlying {
     string fly () {
         return "can not fly";}};
 
-struct QuackingInterface {
-    virtual ~QuackingInterface () {}
-    virtual string quack () = 0;};
-
-struct Quacking : QuackingInterface {
+struct Quacking {
     string quack () {
         return "can quack";}};
 
-struct NonQuacking : QuackingInterface {
+struct NonQuacking {
     string quack () {
         return "can not quack";}};
 
@@ -43,34 +33,29 @@ struct DuckInterface {
     virtual string quack () = 0;
     virtual string swim  () = 0;};
 
-class AbstractDuck : public DuckInterface {
+template <typename F, typename Q>
+class Duck : public DuckInterface {
     private:
-        shared_ptr<FlyingInterface>   _f;
-        shared_ptr<QuackingInterface> _q;
+        F f;
+        Q q;
 
     public:
-        ...
+        string fly () {
+            return f.fly();}
 
-        ~AbstractDuck () = 0;
+        string quack () {
+            return q.quack();}
 
-        ...};
+        string swim () {
+            return "can swim";}};
 
-AbstractDuck::~AbstractDuck () {}
-
-struct DecoyDuck : AbstractDuck {
-    ...};
-
-struct MallardDuck : AbstractDuck {
-    ...};
-
-struct ModelDuck : AbstractDuck {
-    ...};
-
-struct RubberDuck : AbstractDuck {
-    ...};
+typedef Duck<NonFlying, Quacking>    DecoyDuck;
+typedef Duck<Flying,    Quacking>    MallardDuck;
+typedef Duck<NonFlying, NonQuacking> ModelDuck;
+typedef Duck<NonFlying, Quacking>    RubberDuck;
 
 int main () {
-    cout << "StrategyPattern3.c++" << endl;
+    cout << "StrategyPattern5.c++" << endl;
 
     {
     DuckInterface* p = new DecoyDuck;
