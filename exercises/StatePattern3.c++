@@ -28,16 +28,18 @@ class GumballMachine {
                     _gm (gm)
                 {}
 
-            virtual void dispense () {
+            ~AbstractState () = 0;
+
+            void dispense () {
                 throw domain_error("");}
 
-            virtual void eject_quarter () {
+            void eject_quarter () {
                 throw domain_error("");}
 
-            virtual void insert_quarter () {
+            void insert_quarter () {
                 throw domain_error("");}
 
-            virtual void refill (int c) {
+            void refill (int c) {
                 _gm._c += c;}};
 
         struct HasQuarterState : AbstractState {
@@ -93,6 +95,8 @@ class GumballMachine {
 
         void refill (int c) {
             _s->refill(c);}};
+
+GumballMachine::AbstractState::~AbstractState () {}
 
 int main () {
     cout << "StatePattern3.c++" << endl;

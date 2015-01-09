@@ -27,6 +27,8 @@ class GumballMachine {
                     _gm (gm)
                 {}
 
+            ~AbstractState () = 0;
+
             virtual void dispense () {
                 throw domain_error("");}
 
@@ -99,6 +101,8 @@ class GumballMachine {
 
         void refill (int c) {
             _s->refill(c);}};
+
+GumballMachine::AbstractState::~AbstractState () {}
 
 int main () {
     cout << "StatePattern4.c++" << endl;
