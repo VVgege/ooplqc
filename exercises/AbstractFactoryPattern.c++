@@ -1,6 +1,6 @@
-// ------------------------
-// FactoryMethodPattern.c++
-// ------------------------
+// -------------------------
+// AbstractFactoryPattern.c++
+// -------------------------
 
 // http://en.wikipedia.org/wiki/Factory_method_pattern
 // http://en.wikipedia.org/wiki/Dependency_inversion_principle
@@ -73,25 +73,25 @@ struct PizzaFactoryInterface {
     virtual ~PizzaFactoryInterface () {}
     ...};
 
-struct AbstractPizzaFactory : PizzaFactoryInterface {
-    ...};
+struct ChicagoPizzaFactory : PizzaFactoryInterface {
+    ...}
 
-struct ChicagoPizzaFactory : AbstractPizzaFactory {
-    ...};
+struct NewYorkPizzaFactory : PizzaFactoryInterface {
+    ...}
 
-struct NewYorkPizzaFactory : AbstractPizzaFactory {
-    ...};
+shared_ptr<Pizza> make_pizza (const PizzaFactoryInterface& pfi) {
+    ...}
 
 int main () {
-    cout << "FactoryMethodPattern.c++" << endl;
+    cout << "AbstractFactoryPattern.c++" << endl;
 
     {
-    shared_ptr<PizzaInterface> p = ChicagoPizzaFactory().make_pizza();
+    shared_ptr<PizzaInterface> p = make_pizza(ChicagoPizzaFactory());
     assert(p->display() == "thick, mushroom, mozzarella");
     }
 
     {
-    shared_ptr<PizzaInterface> p = NewYorkPizzaFactory().make_pizza();
+    shared_ptr<PizzaInterface> p = make_pizza(NewYorkPizzaFactory());
     assert(p->display() == "thin, tomato, reggiano");
     }
 
