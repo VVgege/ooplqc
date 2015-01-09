@@ -6,51 +6,58 @@
 
 #include <cassert>   // assert
 #include <iostream>  // cout, endl
+#include <memory>    // make_shared, shared_ptr
 #include <stdexcept> // domain_error
 
 using namespace std;
 
-enum State {HasQuarterState, NoQuarterState, SoldOutState};
+struct StateInterface {
+    virtual ~StateInterface () {}
+
+    virtual void dispense       ()    = 0;
+    virtual void eject_quarter  ()    = 0;
+    virtual void insert_quarter ()    = 0;
+    virtual void refill         (int) = 0;};
 
 class GumballMachine {
     private:
-        int   _c;
-        State _s;
+        struct AbstractState : StateInterface {
+            GumballMachine& _gm;
+            ...};
+
+        struct HasQuarterState : AbstractState {
+            ...};
+
+        struct NoQuarterState : AbstractState {
+            ...};
+
+        struct SoldOutState : AbstractState {
+            ...};
+
+    private:
+        int                        _c;
+        shared_ptr<StateInterface> _s;
 
     public:
-        GumballMachine (int c) {
-            _c = c;
-            _s = NoQuarterState;}
+        GumballMachine (int c) :
+                _c (c),
+                _s (make_shared<NoQuarterState>(*this))
+            {}
 
         void dispense () {
-            if (_s == HasQuarterState) {
-                --_c;
-                if (_c == 0)
-                    _s = SoldOutState;
-                else
-                    _s = NoQuarterState;}
-            else
-                throw domain_error("");}
+            ...}
 
         void eject_quarter () {
-            if (_s == HasQuarterState)
-                _s = NoQuarterState;
-            else
-                throw domain_error("");}
+            ...}
 
         void insert_quarter () {
-            if (_s == NoQuarterState)
-                _s = HasQuarterState;
-            else
-                throw domain_error("");}
+            ...}
 
         void refill (int c) {
-            _c += c;
-            if (_s == SoldOutState)
-                _s = NoQuarterState;}};
+            ...}};
 
 int main () {
-    cout << "StatePattern.c++" << endl;
+    cout << "StatePattern2.c++" << endl;
 
     GumballMachine x(3);
     try {

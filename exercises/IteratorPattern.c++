@@ -18,13 +18,13 @@ OI my_copy (II b, II e, OI x) {
 
 template <typename T>
 class Range {
+    private:
+        ...
+
     public:
         class iterator {
             ...};
 
-        ...
-
-    private:
         ...};
 
 int main () {

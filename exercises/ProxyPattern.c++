@@ -20,7 +20,17 @@ struct A {
 
 template <typename T>
 class my_shared_ptr {
-    ...};
+    public:
+        typedef T element_type;
+
+    private:
+        struct count {
+            ...};
+
+        ...
+
+    public:
+        ...};
 
 template <typename T>
 void test () {
