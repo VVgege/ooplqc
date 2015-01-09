@@ -24,13 +24,15 @@ struct EspressoDrink : DrinkInterface {
     int cost () {
         return 4;}};
 
-struct Milk : DrinkInterface {
+struct AbstractDrink : DrinkInterface {
     shared_ptr<DrinkInterface> _d;
-    ...}
+    ...};
 
-struct Mocha : DrinkInterface {
-    shared_ptr<DrinkInterface> _d;
-    ...}
+struct Milk : AbstractDrink {
+    ...};
+
+struct Mocha : AbstractDrink {
+    ...};
 
 int main () {
     cout << "DecoratorPattern2.c++" << endl;
