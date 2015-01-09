@@ -27,8 +27,9 @@ struct EspressoDrink : DrinkInterface {
 struct AbstractDrink : DrinkInterface {
     shared_ptr<DrinkInterface> _d;
 
-    AbstractDrink (shared_ptr<DrinkInterface> d) {
-        _d = d;}};
+    AbstractDrink (shared_ptr<DrinkInterface> d) :
+            _d (d)
+        {}};
 
 struct Milk : AbstractDrink {
     Milk (shared_ptr<DrinkInterface> d) :
