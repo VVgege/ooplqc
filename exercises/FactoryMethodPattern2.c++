@@ -1,6 +1,6 @@
-// ------------------------
-// FactoryMethodPattern.c++
-// ------------------------
+// -------------------------
+// FactoryMethodPattern2.c++
+// -------------------------
 
 // http://en.wikipedia.org/wiki/Factory_method_pattern
 // http://en.wikipedia.org/wiki/Dependency_inversion_principle
@@ -74,19 +74,42 @@ struct Pizza : PizzaInterface {
 
 struct PizzaFactoryInterface {
     virtual ~PizzaFactoryInterface () {}
-    ...};
+    virtual shared_ptr<Pizza> make_pizza () = 0;
+
+    virtual shared_ptr<CrustInterface>   make_crust   () = 0;
+    virtual shared_ptr<SauceInterface>   make_sauce   () = 0;
+    virtual shared_ptr<ToppingInterface> make_topping () = 0;};
 
 struct AbstractPizzaFactory : PizzaFactoryInterface {
-    ...};
+    shared_ptr<Pizza> make_pizza () {
+        return
+            make_shared<Pizza>(
+                make_crust(),
+                make_sauce(),
+                make_topping());}};
 
 struct ChicagoPizzaFactory : AbstractPizzaFactory {
-    ...};
+    shared_ptr<CrustInterface> make_crust () {
+        return make_shared<ThickCrust>();}
+
+    shared_ptr<SauceInterface> make_sauce () {
+        return make_shared<MushroomSauce>();}
+
+    shared_ptr<ToppingInterface> make_topping () {
+        return make_shared<MozzarellaTopping>();}};
 
 struct NewYorkPizzaFactory : AbstractPizzaFactory {
-    ...};
+    shared_ptr<CrustInterface> make_crust () {
+        return make_shared<ThinCrust>();}
+
+    shared_ptr<SauceInterface> make_sauce () {
+        return make_shared<TomatoSauce>();}
+
+    shared_ptr<ToppingInterface> make_topping () {
+        return make_shared<ReggianoTopping>();}};
 
 int main () {
-    cout << "FactoryMethodPattern.c++" << endl;
+    cout << "FactoryMethodPattern2.c++" << endl;
 
     {
     shared_ptr<PizzaInterface> p = ChicagoPizzaFactory().make_pizza();
